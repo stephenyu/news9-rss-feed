@@ -4,8 +4,8 @@ from dateutil import parser
 from datetime import datetime
 from rfeed import *
 from flask import Flask
-import redis
-r = redis.Redis(host='redis', port=6379, db=0)
+# import redis
+# r = redis.Redis(host='redis', port=6379, db=0)
 
 app = Flask(__name__)
 
@@ -37,13 +37,13 @@ def get_news():
         title = story.find(name="span", attrs={'class': 'story__headline__text'}).text
         abstract = story.find(name="div", attrs={'class': 'story__abstract'}).text
 
-        possibleDate = r.get(link)
+        # possibleDate = r.get(link)
 
-        if (possibleDate):
-            date = parser.parse(possibleDate)
-        else:
-            date = get_article_date(link)
-            r.set(link, date.isoformat())
+        # if (possibleDate):
+        #     date = parser.parse(possibleDate)
+        # else:
+        date = get_article_date(link)
+            # r.set(link, date.isoformat())
 
         item = Item(
             title = title,
@@ -56,16 +56,17 @@ def get_news():
 
     return items
 
-@app.route("/")
-def index():
-   items = get_news()
+print(get_news())
+# @app.route("/")
+# def index():
+#    items = get_news()
 
-   feed = Feed(
-       title = "9news: Sydney",
-       link = "https://www.9news.com.au/sydney",
-       description = "9news Sydney Feed",
-       language = "en-US",
-       lastBuildDate = datetime.now(),
-       items = items)
+#    feed = Feed(
+#        title = "9news: Sydney",
+#        link = "https://www.9news.com.au/sydney",
+#        description = "9news Sydney Feed",
+#        language = "en-US",
+#        lastBuildDate = datetime.now(),
+#        items = items)
 
-   return feed.rss()
+#    return feed.rss()
