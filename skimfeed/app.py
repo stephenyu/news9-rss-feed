@@ -62,8 +62,10 @@ def get_items(parsed_list):
             title = itemTitle,
             link = target,
             description = description,
-            guid = Guid(link),
+            guid = Guid(target),
             pubDate = date)
+
+        print(target)
 
         items.append(item)
 
