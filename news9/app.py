@@ -15,14 +15,17 @@ def get_article_date(article_url):
 
     gallery_date = parsed_html.select('span[class*="DisplayDate"]')
 
-    if (len(gallery_date) == 0):
-        dateStr = parsed_html.find(name='time', attrs={'class': 'text--byline'})['datetime']
-        date = parser.parse(dateStr)
-        return date
-    else:
-        dateStr = gallery_date[0].string
-        date = parser.parse(dateStr)
-        return date
+    try:
+        if (len(gallery_date) == 0):
+            dateStr = parsed_html.find(name='time', attrs={'class': 'text--byline'})['datetime']
+            date = parser.parse(dateStr)
+            return date
+        else:
+            dateStr = gallery_date[0].string
+            date = parser.parse(dateStr)
+            return date
+    except:
+        return datetime.now()
 
 def get_news():
     response = requests.get('https://www.9news.com.au/sydney')
